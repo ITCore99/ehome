@@ -2,12 +2,12 @@
   <div class="Mine-wrap">
     <div class="top">
         <div class="img-wrap">
-            <img src="http://img5.duitang.com/uploads/item/201602/05/20160205203413_ZE4fQ.jpeg"/>
+            <img :src="$store.state.userInfo.header ? $store.state.userInfo.header : 'http://img5.duitang.com/uploads/item/201602/05/20160205203413_ZE4fQ.jpeg'"/>
         </div>
-        <p class="tip">你还没登陆请登陆</p>
+        <p class="tip" v-text="$store.state.userInfo.username ? $store.state.userInfo.username :'你还没登陆,请登陆'"></p>
     </div>
     <div class="bottom">
-        <router-link to="/index">
+        <router-link to="/updateInfo">
           <div class="item-wrap">
               <div class="item-wrap-left" >
                 <i class="avatar one"></i><span class="desc">个人信息</span>
@@ -17,7 +17,7 @@
               </div>
           </div>
         </router-link>
-        <router-link to="/index">
+        <router-link to="/integral">
           <div class="item-wrap">
             <div class="item-wrap-left" >
               <i class="avatar two"></i><span class="desc">个人量化积分</span>
@@ -27,7 +27,7 @@
             </div>
           </div>
         </router-link>
-        <router-link to="/index">
+        <router-link to="/changePassword">
           <div class="item-wrap">
             <div class="item-wrap-left" >
               <i class="avatar three"></i><span class="desc">修改密码</span>
@@ -37,7 +37,7 @@
             </div>
           </div>
         </router-link>
-        <router-link to="/index">
+        <router-link to="/payfee">
           <div class="item-wrap">
             <div class="item-wrap-left" >
               <i class="avatar four"></i><span class="desc">党费缴纳</span>
@@ -48,12 +48,22 @@
           </div>
         </router-link>
     </div>
+    <div class="btn-wrap" v-if="$store.state.userInfo.username">
+      <button class="btn" @click="handlerOut">点击退出</button>
+    </div>
   </div>
 </template>
 
 <script>
     export default {
-        name: "mine"
+        name: "mine",
+        methods:{
+          handlerOut()
+          {
+            this.$store.state.userInfo={};
+            this.$router.push("/login");
+          }
+        }
     }
 </script>
 
@@ -109,6 +119,7 @@ a{
   border-bottom: 1px solid #f1f1f1;
   align-items: center;
   margin-top: 15px;
+  height:38px;
 
 }
 .avatar
@@ -155,5 +166,22 @@ a{
   height:25px;
   background: url("../../image/images/right.png") no-repeat;
   margin-right: 15px;
+}
+.btn-wrap
+{
+  width:7.5rem;
+  box-sizing: border-box;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+.btn
+{
+  width: 80%;
+  height: 40px;
+  border-radius: 5px;
+  background:#e3574f;
+  color:#fff;
+  border-style: none;
 }
 </style>

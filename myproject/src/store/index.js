@@ -6,7 +6,9 @@ Vue.use(Vuex);
 const store=new Vuex.Store({
   state:{
       title:"",
-      index:"1"
+      index:"1",
+      token:'',
+      userInfo:{}
   },
   mutations:{
     CHANGETITLE(state,payload)
@@ -16,6 +18,14 @@ const store=new Vuex.Store({
     CHANGEFOOSTER(state,payload)
     {
       state.index=payload;
+    },
+    INITUSERINFO(state,payload)
+    {
+      state.userInfo=payload;
+    },
+    INITTOKEN(state,payload)
+    {
+      state.token=payload;
     }
   },
   plugins:[createPersistedState({

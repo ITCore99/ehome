@@ -13,7 +13,7 @@
           <p class="content">掌上组织生活</p>
         </div>
       </router-link>
-      <router-link to="/">
+      <router-link to="/cloud">
         <div class="common">
           <img src="../image/sodoku/icon_05.png">
           <p class="content">党员云互动</p>

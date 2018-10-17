@@ -4,6 +4,8 @@
            <span>{{options}}</span>
         </div>
         <i class="back" @click="handlerBack"></i>
+        <span class="right" v-if="target=='编辑'" @click="clickEdit">{{target}}</span>
+        <span class="right" v-if="target=='保存'" @click="clickSave">{{target}}</span>
     </div>
 </template>
 
@@ -12,6 +14,9 @@
         name: "Hnav",
         props:{
           options:{
+            type:String,
+          },
+          target:{
             type:String,
           }
         },
@@ -25,6 +30,14 @@
           handlerBack()
           {
             this.$router.go(-1);
+          },
+          clickEdit()
+          {
+            this.$emit("Edit");
+          },
+          clickSave()
+          {
+            this.$emit("Save");
           }
         }
 
@@ -55,5 +68,13 @@
   top:10px;
   left:5px;
   background: url("../image/images/back.png");
+}
+.right
+{
+  position:absolute;
+  top:10px;
+  right:15px;
+  color:#fff;
+  font-size:18px;
 }
 </style>

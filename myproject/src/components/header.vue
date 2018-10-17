@@ -4,7 +4,7 @@
         <div class="header-image">
           <img src="../image/images/logo.png" class="IMg">
         </div>
-        <div class="header-login" @click="$router.push('/login')">登陆</div>
+        <div v-if="!$store.state.userInfo.username" class="header-login" @click="$router.push('/login')">登陆</div>
       </div>
       <div v-else  class="menu">{{this.$store.state.title}}</div>
     </div>

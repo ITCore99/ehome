@@ -7,16 +7,16 @@
         <div class="form-wrap">
           <el-form ref="form" :model="form" label-width="20px">
              <el-form-item>
-              <el-input v-model="form.numberId" placeholder="身份证号" autofocus="true" class="input"></el-input>
+              <el-input v-model="form.id_card" placeholder="身份证号" autofocus="true" class="input"></el-input>
              </el-form-item>
              <el-form-item>
-                <el-input v-model="form.numberId" placeholder="密码" type="password"></el-input>
+                <el-input v-model="form.password" placeholder="密码" type="password"></el-input>
              </el-form-item>
              <el-form-item>
-              <el-button class="btn" >登陆</el-button>
+              <el-button class="btn"  @click="handerSubmit">登陆</el-button>
              </el-form-item>
             <el-form-item>
-              <el-button class="btn" >注册</el-button>
+              <el-button class="btn" @click="handerss">注册</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -32,12 +32,35 @@
           return{
             form:{
               password:"",
-              numberId:""
+              id_card:""
             }
           }
         },
         components:{
           "myHnav":Hnav,
+        },
+        methods:{
+          handerSubmit()
+          {
+            let formData=new FormData();
+            formData.append('id_card',this.form.id_card);
+            formData.append('password',this.form.password)
+            this.axios.post("/hhdj/user/userLogin.do",formData).then(res=>{
+              if(res.code==1)
+              {
+                  this.$store.commit("INITUSERINFO",res.data);
+                  this.$store.commit("INITTOKEN",res.token);
+                  sessionStorage.setItem("token",res.token);
+                  this.$router.push("/home");
+              }
+            })
+          },
+          handerss()
+          {
+            this.axios.post("/hhdj/user/userInfo.do").then(res=>{
+              console.log(res);
+            })
+          }
         }
     }
 </script>
