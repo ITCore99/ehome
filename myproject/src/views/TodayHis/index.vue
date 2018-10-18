@@ -6,6 +6,8 @@
 </template>
 <script>
     import  hNav from "@/components/Hnav"
+    import  getUrl from "@/untils/geturl"
+    import   cheerio from "cheerio"
     export default {
         name: "index",
         data()
@@ -15,12 +17,15 @@
           }
         },
         methods:{
-          getData()
+          getData(param)
           {
-            this.axios.get("http://211.67.177.56:8080/hhdj/proxy/proxy.do?url=http:%2F%2Fcpc.people.com.cn%2FGB%2F64162%2F64165%2F70486%2F70502%2Findex.html").then(res=>{
+            this.axios.get(`http://211.67.177.56:8080/hhdj/proxy/proxy.do?url=${param}`).then(res=>{
               console.log(res);
+              let $=cheerio.load(res);
+              let content=$(".p1_02 ").html();
+              console.log(content)
               let str = res.split('<!--content-->')[1];
-              this.datas = str.split('<!--p1 end-->')[0];
+              this.datas = content;
             })
           }
         },
@@ -29,7 +34,12 @@
         },
        created()
        {
-         this.getData();
+         let month=new Date().getMonth()+1;
+         let day=new Date().getDate();
+         month=month <10 ? "0"+month : month+"";
+         day=day < 10  ? "0"+day : day+"";
+         let url=getUrl(month,day);
+         this.getData(url);
        }
     }
 </script>
@@ -38,7 +48,12 @@
   {
     width: 7.5rem;
     box-sizing: border-box;
-    padding: 10px 15px;
+  }
+  .content
+  {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
   }
   h1{
     font-size: 0.64rem;

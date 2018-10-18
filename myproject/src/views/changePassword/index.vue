@@ -20,11 +20,13 @@
             </el-form-item>
           </el-form>
         </div>
+        <message v-if="hint" :title="hint"></message>
     </div>
 </template>
 
 <script>
     import  hNav from "@/components/Hnav"
+    import  Message from "@/components/message";
     export default {
         name: "index",
         data()
@@ -34,11 +36,13 @@
               newPwd:'',
               oldPwd:'',
               confirmPassword:'',
-            }
+            },
+            hint:'',
           }
         },
         components:{
-          "hNav":hNav
+          "hNav":hNav,
+           message:Message
         },
         methods:{
           handerClick()
@@ -55,6 +59,13 @@
                      this.$router.go(-1);
                  }
                })
+             }else
+             {
+               this.hint="两次密码不一样";
+               let _this=this;
+               setTimeout(()=>{
+                 _this.hint="";
+               },2000)
              }
           }
         }

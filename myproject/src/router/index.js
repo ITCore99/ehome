@@ -25,7 +25,8 @@ const components= {
   integralDetail:()=>import('@/views/integralDetail'),
   payFee:()=>import('@/views/payfee'),
   changePassword:()=>import('@/views/changePassword'),
-  updateUserinfo:()=>import('@/views/updateInfo')
+  updateUserinfo:()=>import('@/views/updateInfo'),
+  reply:()=>import('@/views/reply')
 }
 export default new Router({
   routes: [
@@ -152,6 +153,11 @@ export default new Router({
       path:'/updateInfo',
       name:"修改个人信息",
       component:components.updateUserinfo
+    },
+    {
+      path:"/reply",
+      name:"回复消息",
+      component:components.reply
     }
 
   ]

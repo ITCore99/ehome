@@ -8,7 +8,7 @@
             <img class="IMG" :src="data.header"/>
            </div>
            <div v-else class="upLoad-wrap">
-             <upLoad @uploadSuccess="getIMGURL" :img="imgURL"></upLoad>
+             <upLoad @uploadSuccess="getIMGURL" :img="imgURL" @Base64="Base64"></upLoad>
            </div>
         </div>
         <div class="item">
@@ -72,17 +72,21 @@
         <div class="item">
           <span>入党时间</span>
           <span v-if="flag">{{data.joinPartyTime}}</span>
-          <input v-else class="input" type="text" v-model="data.joinPartyTime"/>
+          <input v-else class="input" type="date" v-model="data.joinPartyTime"/>
         </div>
         <div class="item">
           <span>党费最后缴纳时间</span>
           <span v-if="flag">{{data.lastPayTime}}</span>
-          <input v-else class="input" type="text" v-model="data.lastPayTime"/>
+          <input v-else class="input" type="date" v-model="data.lastPayTime"/>
         </div>
         <div class="item">
           <span>当前身份</span>
           <span v-if="flag">{{data.partyIdentity}}</span>
-          <input v-else class="input" type="text" v-model="data.partyIdentity"/>
+          <select v-else class="input" v-model="data.partyStatus" name="select">
+            <option value="2">党员</option>
+            <option value="0">积极分子</option>
+            <option value="1">预备党员</option>
+          </select>
         </div>
       </div>
     </div>
@@ -105,16 +109,15 @@
           "hNav":hNav,
           "upLoad":upload
         },
+        avatar:"",
         methods:{
           getIMGURL(params)
           {
-            this.imgURL=params;
-            this.data.header=params;
-            console.log(params)
+            this.avatar=params;
           },
           getData()
           {
-            this.axios.get("/hhdj/user/userInfo.do").then(res=>{
+            this.axios.get("/hhdj/user/userInfo.do").then(res=>{ //异步的
               if(res.code==1)
               {
                 this.data=res.data;
@@ -129,11 +132,7 @@
           },
           handlerSave()
           {
-            console.log("我是提交状态");
-            this.target="编辑";
-            this.flag=!this.flag;
             let formData=new FormData();
-            // formData.append("header",this.data.header);
             formData.append("username",this.data.username);
             formData.append("hometown",this.data.hometown);
             formData.append("wxNum",this.data.wxNum);
@@ -146,9 +145,27 @@
             formData.append("joinPartyTime",this.data.joinPartyTime);
             formData.append("lastPayTime",this.data.lastPayTime);
             formData.append("partyStatus",this.data.partyStatus);
+            if(this.avatar)
+            {
+              formData.append("header",this.avatar);
+            }
+            console.log(this.avatar);
+            let _this=this;
             this.axios.post("/hhdj/user/modifyInfo.do",formData).then(res=>{
-              console.log(res);
-            })
+              if(res.code==1)
+              {
+                this.getData();
+                _this.avatar="";
+              }
+            });
+            this.target="编辑";
+            this.flag=!this.flag;
+
+
+          },
+          Base64(base64)
+          {
+            this.imgURL=base64;
           }
         },
         created()

@@ -1,18 +1,24 @@
 <template>
     <div>
-      <div class="cloIn-wraper" v-for="(item,index) in options" :key="index">
+      <div :class=" isPly ? 'cloIn-wraper' :'cloIn-wraper ply'" v-for="(item,index) in options" :key="index">
           <div class="top">
               <img :src="item.header">
               <div class="top-user">
                  <p class="username">{{item.username}}</p>
-                 <div class="time"><i class="common timeIcon"></i>{{item.currentTime}}<i class="labaICon"></i>{{item.isPriv==0 ? "公开":"私密"}}</div>
+                <div class="time">
+                  <i class="common timeIcon"></i>
+                  <span v-if="!isPly">{{item.currentTime}}</span>
+                  <span v-else>{{item.timeFormat}}</span>
+                  <i class="labaICon" v-if="isPublic"></i>
+                  <span v-if="isPublic">{{item.isPriv==0 ? "公开":"私密"}}</span></div>
               </div>
-              <div class="top-title">
+              <div class="top-title" v-if="rightFlag">
                 <span>党员互动</span>
               </div>
           </div>
-          <div class="middle">{{item.content}}</div>
-          <div class="bottom">
+          <div class="middle" v-if="!isPly">{{item.content}}</div>
+           <div class="middle" v-else>{{item.comment}}</div>
+          <div class="bottom" v-if="bottomFlag" @click="handlerReply(item)">
                <i class="RIcon"></i><span class="revice">回复</span>
           </div>
       </div>
@@ -25,8 +31,32 @@
         props:{
           options:{
             type:Array
+          },
+          rightFlag:{
+            type:Boolean,
+          },
+          bottomFlag:{
+            type:Boolean,
+          },
+          isPublic:{
+            type: Boolean
+          },
+          isPly:{
+            type:Boolean
           }
+        },
+      data()
+      {
+        return{
         }
+      },
+      methods:{
+        handlerReply(data)
+        {
+          this.$store.commit("PASSCLOUDDATA",data);
+          this.$router.push("/reply");
+        }
+      }
     }
 </script>
 
@@ -36,6 +66,10 @@
   width:7.5rem;
   box-sizing: border-box;
   padding:15px;
+  border-bottom: 1px solid #888;
+}
+.ply
+{
   border-bottom: 15px solid #f1f1f1;
 }
 .top
@@ -135,4 +169,5 @@ img{
    background-size: cover;
    background: url("../image/images/喇叭.png") no-repeat;
  }
+
 </style>

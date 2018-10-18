@@ -8,7 +8,8 @@ const store=new Vuex.Store({
       title:"",
       index:"1",
       token:'',
-      userInfo:{}
+      userInfo:{},
+      cloudItemData:""
   },
   mutations:{
     CHANGETITLE(state,payload)
@@ -26,6 +27,10 @@ const store=new Vuex.Store({
     INITTOKEN(state,payload)
     {
       state.token=payload;
+    },
+    PASSCLOUDDATA(state,payload)
+    {
+      state.cloudItemData=new Array(payload);
     }
   },
   plugins:[createPersistedState({
