@@ -2,7 +2,7 @@ import axios from "axios"
 
 const instance=axios.create({
   baseURL:"http://211.67.177.56:8080",
-  timeout:15000,
+  timeout:1500,
 })
  const xhr={
      get(url,data,config={})

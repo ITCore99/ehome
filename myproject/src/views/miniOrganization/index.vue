@@ -11,19 +11,19 @@
                 <p class="content">政治学习</p>
               </div>
            </router-link>
-           <router-link to="/login">
+           <router-link :to="$store.state.userInfo.idCard ? '/thinking' : '/login'">
             <div class="common">
               <img class="img" src="../../image/images/icon2.png"/>
               <p class="content">思想汇报</p>
             </div>
            </router-link>
-           <router-link to="/login">
+           <router-link :to="$store.state.userInfo.idCard ? '/experience' : '/login'">
             <div class="common">
               <img class="img" src="../../image/images/icon3.png"/>
               <p class="content">心得总结</p>
             </div>
            </router-link>
-           <router-link to="/index">
+           <router-link to="/democratic">
             <div class="common">
               <img class="img" src="../../image/images/icon4.png"/>
               <p class="content">民主评议</p>

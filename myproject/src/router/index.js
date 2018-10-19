@@ -26,7 +26,13 @@ const components= {
   payFee:()=>import('@/views/payfee'),
   changePassword:()=>import('@/views/changePassword'),
   updateUserinfo:()=>import('@/views/updateInfo'),
-  reply:()=>import('@/views/reply')
+  reply:()=>import('@/views/reply'),
+  experience:()=>import('@/views/experience'),
+  thinking:()=>import('@/views/thinking'),
+  democratic:()=>import('@/views/democratic'),
+  summary:()=>import('@/views/summary'),
+  democraticDetail:()=>import('@/views/democraticDetail/democrationDetail'),
+  democraticNext:()=>import('@/views/democraticDetail/democraticNext')
 }
 export default new Router({
   routes: [
@@ -158,6 +164,36 @@ export default new Router({
       path:"/reply",
       name:"回复消息",
       component:components.reply
+    },
+    {
+      path:"/experience",
+      name:"心得体会",
+      component:components.experience
+    },
+    {
+      path:"/thinking",
+      name:"思想汇报",
+      component:components.thinking
+    },
+    {
+      path:"/democratic",
+      name:"/民主评议",
+      component:components.democratic,
+    },
+    {
+      path:"/summary",
+      name:"/个人总结",
+      component:components.summary,
+    },
+    {
+      path:"/democraticDetail",
+      name:"/民主评议详情页",
+      component:components.democraticDetail,
+    },
+    {
+      path:"/democraticNext",
+      name:"/民主评议下一页",
+      component:components.democraticNext,
     }
 
   ]
