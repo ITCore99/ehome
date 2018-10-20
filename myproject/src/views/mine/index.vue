@@ -4,7 +4,7 @@
         <div class="img-wrap">
             <img :src="$store.state.userInfo.header ? $store.state.userInfo.header : 'http://img5.duitang.com/uploads/item/201602/05/20160205203413_ZE4fQ.jpeg'"/>
         </div>
-        <p class="tip" v-text="$store.state.userInfo.username ? $store.state.userInfo.username :'你还没登陆,请登陆'"></p>
+        <p class="tip" v-text="$store.state.userInfo.idCard ? $store.state.userInfo.username :'你还没登陆,请登陆'"></p>
     </div>
     <div class="bottom">
         <router-link to="/updateInfo">
@@ -48,7 +48,7 @@
           </div>
         </router-link>
     </div>
-    <div class="btn-wrap" v-if="$store.state.userInfo.username">
+    <div class="btn-wrap" v-if="$store.state.userInfo.idCard">
       <button class="btn" @click="handlerOut">点击退出</button>
     </div>
   </div>
@@ -61,6 +61,8 @@
           handlerOut()
           {
             this.$store.state.userInfo={};
+            this.$store.state.index="1";
+            this.$store.state.title="";
             this.$router.push("/login");
           }
         }

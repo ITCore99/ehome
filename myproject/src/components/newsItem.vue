@@ -1,4 +1,9 @@
 <template>
+  <scroller
+    :on-refresh="refresh"
+    ref="myScroller"
+    :noDataText="tips"
+    :on-infinite="infinite">
     <div class="newsItem-wrap">
       <div class="wrap" v-for="(item,index) in datas" :key="index">
         <div class="newsItemImg">
@@ -10,6 +15,7 @@
         </div>
       </div>
     </div>
+  </scroller>
 </template>
 
 <script>
@@ -19,24 +25,53 @@
         {
           return{
             datas:[],
+            pn:1,
+            row:10,
+            tips:"没数据了"
           }
         },
         methods:{
-
             getData()
             {
-               this.axios.get("/hhdj/news/newsList.do",{page:1,rows:10,type:2}).then(res=>{
-                 console.log(res);
-                 if(res.code==1)
-                 {
-                   this.datas=res.rows;
-                 }
-               })
-            }
+               this.axios.get("/hhdj/news/newsList.do",{page:this.pn,rows:this.row,type:2}).then(res=>{
+                   if(res.code==1)
+                   {
+                     this.datas=[...this.datas,...res.rows];
+                   }
+                 })
+            },
+            refresh(done)
+              {
+                console.log("下拉了");
+                let _this=this;
+                this.pn=1;
+                this.row=10;
+                this.datas=[];
+                f();
+                async function f()
+                {
+                  await _this.getData(_this.pn,_this.row);
+                  await done();
+                };
+
+              },
+               infinite(done)
+              {
+                console.log("上拉了");
+                let oldDatas=this.datas;
+                this.pn = this.pn +1;
+                this.getData(this.pn,this.row);
+                setTimeout(()=>{
+                  if(oldDatas.length==this.datas.length)
+                  {
+                    done();
+                  }
+                },1500)
+              }
         },
         created()
         {
-          this.getData();
+          this.getData(this.pn,this.row);
         }
     }
 </script>
@@ -45,6 +80,7 @@
 .newsItem-wrap
 {
    margin-top: 44px;
+   overflow-y : auto
 }
 .newsItemContent
 {

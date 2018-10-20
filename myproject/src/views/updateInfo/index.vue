@@ -121,6 +121,7 @@
               if(res.code==1)
               {
                 this.data=res.data;
+                this.$store.commit("INITUSERINFO",res.data);
                 this.imgURL=res.data.header;
               }
             })
@@ -155,6 +156,7 @@
               if(res.code==1)
               {
                 this.getData();
+
                 _this.avatar="";
               }
             });

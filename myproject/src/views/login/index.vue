@@ -46,6 +46,7 @@
             formData.append('id_card',this.form.id_card);
             formData.append('password',this.form.password)
             this.axios.post("/hhdj/user/userLogin.do",formData).then(res=>{
+              console.log(res);
               if(res.code==1)
               {
                   this.$store.commit("INITUSERINFO",res.data);
